@@ -1,0 +1,53 @@
+.navbar {
+    width: 1500px; 
+    height: 70px;
+    padding: 20px 20px; 
+    position: fixed;
+    top: 0px; 
+    left: 200px; 
+    margin-bottom: 100px;
+    background-color: #fff;
+    border-radius: 1px;
+    opacity: 1;
+    border: 1px solid #D7DBE0;
+    
+
+  }
+  
+  .navbar-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    margin-left: -1px;
+    
+  }
+  
+  .navbar-item {
+    margin-left: 550px;
+    margin-right: -70px;
+    display: flex;
+    
+
+  }
+  .man {
+    width: 25px;
+    height: 25px;
+    margin-left:630PX ;
+    margin-right:-1050px ;
+    margin-top: 3px;
+    
+  }
+  
+  
+  .navbar-profile {
+    width: 20px;
+    height: 20px;
+    margin-right: 100px;
+    margin-left:180px ;
+    font-weight: 400;
+    color: rgba(98, 98, 98, 1);
+    margin-top: 7px;
+
+  }
+ 

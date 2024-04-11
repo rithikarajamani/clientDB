@@ -1,0 +1,18 @@
+.addNew{
+    background-color: rgba(117, 90, 255, 1);
+    margin-right: 100px;
+    border:none;
+    width: 116px;
+    height: 35px;
+    gap: 8px;
+    border-radius: 7px ;
+    opacity: 0px;
+    display: flex;
+    color: white;
+    font-size: medium;
+    padding-left: 11px;
+    padding-top: 8.2px;
+}
+.addNew-img{
+    padding-top: 0px;
+}

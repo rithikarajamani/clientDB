@@ -252,6 +252,7 @@ function Table() {
     },
   ]);
 
+  
   const statusOptions = [
     { label: "Active", value: "Active" },
     { label: "Inactive", value: "Inactive" },

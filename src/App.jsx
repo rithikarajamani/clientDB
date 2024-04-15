@@ -23,10 +23,7 @@ function App() {
           </Routes>
         </Router>
 
-        {/* <div className="App">
-          <Login></Login>
-          {/* <Table /> */}
-        {/* </div>  */}
+       
       </FontProvider>
     </>
   );

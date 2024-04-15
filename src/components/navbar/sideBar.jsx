@@ -25,6 +25,7 @@ const Sidebar = () => {
             className={`menu-item ${isDashboardClicked ? 'active' : ''}`}
             onClick={handleDashboardClick}
           >
+             
             <img
               src="./assets/DashboardImg.jpg"
               alt="Dashboard icon"
@@ -36,6 +37,7 @@ const Sidebar = () => {
             className={`menu-item ${isClientsClicked ? 'active' : ''}`}
             onClick={handleClientsClick}
           >
+            
             <img
               src="./assets/Clients.jpg"
               alt="Clients icon"

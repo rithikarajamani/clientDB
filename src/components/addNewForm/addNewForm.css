@@ -1,0 +1,93 @@
+.p-sidebar {
+    width: 500px; 
+    
+}
+
+.form-container {
+    width: 450px;
+    margin: 50px auto;
+   
+    margin-right: 0px;
+    margin-top: -14px;
+    
+  }
+  
+  
+  input,
+  select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: 10px;
+    color: #ccc;
+  }
+  
+  .label-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+   
+  }
+  
+  label {
+    margin-right: 10px;
+    min-width: 170px;
+    text-align: left;
+  }
+  
+  .buttons {
+    display: flex;
+    /* justify-content: space-around; */
+    text-align: left;
+   
+  }
+  
+  /* button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 7px;
+  } */
+  
+  /* button:hover {
+    background-color: #0056b3;
+  }  */
+  
+  .buttons {
+    display: flex;
+    justify-content: space-between; 
+    text-align: left;
+    gap: 8px;
+    
+    
+  }
+  
+  .create-button {
+    margin-right: 10px;
+    background-color:#755AFF;
+    cursor: pointer;
+    border-radius: 7px;
+    display: flex;
+    justify-content: space-between; 
+    text-align: left;
+    gap: 8px;
+    border: none;
+   
+    
+  }
+  
+  .cancel-button {
+  
+    background-color: #D6D6DC; 
+    margin-right: 350px;
+    cursor: pointer;
+    border-radius: 7px;
+    display: flex;
+    justify-content: space-between; 
+    text-align: left;
+    gap: 8px;
+    BORDEr:none
+  }

@@ -22,6 +22,7 @@ body{
 
 .search{
   margin-left: 82px;
+  margin-bottom: -10px;
 }
 
 .filter-content {
@@ -87,13 +88,15 @@ body{
 }
 
 .action-img{
-  margin-left: 35px;
+  margin-left: 15px;
+  border: none;
+  
 }
 
 .edit-button{
   background-color: white;
   border:1px solid rgba(215, 219, 224, 1);
-  width:121px;
+  width:11px;
   height: 37px;
   position: absolute;
   left: -70px;
@@ -113,7 +116,7 @@ body{
 }
 
 .edit-image{
-  width: 23px;
+  width: 13px;
   margin-left: -35px;
 }
 
@@ -121,4 +124,41 @@ body{
   padding-left: 4px;
   padding-top: 12px;
   display: flex;   
+}
+.p-menubar{
+    height: 15px;
+    width:120px;
+    background-color: none ;
+    border:none
+    
+}
+
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-submenu-icon {
+  
+  margin-left: 0.5rem;
+  display: none;
+  margin-top: -58%;
+}
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link {
+  padding: 0.75rem 1.25rem;
+  user-select: none;
+  margin-top: -15%;
+}
+.p-menubar :hover{
+  background-color: #fff;
+}
+.p-menubar .p-submenu-list {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  height: 200%;
+  margin-left: -163%;
+  padding-left: 40%;
+  width: 212%;
+  padding-top: 0%;
+}
+
+.p-menuitem{
+  height: 20px;
+
 }

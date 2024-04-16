@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -15,6 +15,10 @@ import Clients from "../clients/client";
 import RemarksForm from "../remarks/remarksForm";
 import EditForm from "../editForm/editForm";
 import Axios from "axios";
+
+import { Menubar } from 'primereact/menubar';
+import { Toast } from "primereact/toast";
+        
 function Table() {
   useEffect(() => {
     document.body.style.overflowX = "hidden";
@@ -23,9 +27,10 @@ function Table() {
     };
   }, []);
   const fontStyles = useFont();
+  const toast = useRef(null);
   const [activeRowId, setActiveRowId] = useState(null); // State to track active row ID
-  const [remarksVisibleRight,setRemarksVisibleRight]=useState(false);
-  const [editVisibleRight,setEditVisibleRight]=useState(false);
+  const [remarksVisibleRight, setRemarksVisibleRight] = useState(false);
+  const [editVisibleRight, setEditVisibleRight] = useState(false);
   const [filters, setFilters] = useState({
     global: {
       value: "",
@@ -264,7 +269,8 @@ function Table() {
     { label: "Yes", value: "Yes" },
     { label: "No", value: "No" },
   ];
-
+  
+              
   // const onStatusChange = (rowData, e) => {
   //   const updatedData = [...data];
   //   const index = updatedData.findIndex((item) => item.id === rowData.id);
@@ -320,12 +326,49 @@ function Table() {
     event.stopPropagation();
   };
 
-  useEffect(()=>{
-    Axios.get('http://localhost:8090/login/viewClients?status=active')
-    .then(res=>console.log(res))
-    .catch(err=>console.log(err))
-  },[])
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await Axios.get(
+          "http://localhost:8090/login/viewClients?limit=5&status=active&offset=0"
+        );
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+    fetchData();
+  }, []);
+  
+  const items = [
+      {
+          label: (
+            <img
+            className="action-img"
+            src="./assets/action.png"
+            alt="File"
+        />
+          ),
+          
+          items: [
+              {
+                  label: ( 
+                 
+                  //   <img
+                  //   className="edit-image"
+                  //   src="./assets/editicon.png"
+                  // ></img>,
+                  'Edit'
+                  
+                  ),
+                  
+                  command: () => {
+                    setEditVisibleRight(!editVisibleRight);
+                  }
+              },
+            ]
+          }
+        ]
   return (
     <div style={fontStyles}>
       {/* <h1>Clients</h1> */}
@@ -367,15 +410,20 @@ function Table() {
         style={fontStyles}
         stripedRows
       >
-        <Column field="id" header="ID" sortable frozen />
-        <Column field="client" header="CLIENT" sortable frozen />
-        <Column field="company" header="COMPANY" sortable frozen />
-        <Column field="designation" header="DESIGNATION" sortable frozen />
-        <Column field="contact" header="CONTACT" sortable />
-        <Column field="email" header="EMAIL" sortable />
-        <Column field="emailSent" header="EMAIL SENT" sortable />
-        <Column field="clientReply" header="CLIENT REPLY" sortable />
-        <Column field="followUp" header="FOLLOW UP" sortable />
+        <Column field="client_id" header="ID" sortable frozen />
+        <Column field="client_name" header="CLIENT" sortable frozen />
+        <Column field="client_company_name" header="COMPANY" sortable frozen />
+        <Column
+          field="client_designation"
+          header="DESIGNATION"
+          sortable
+          frozen
+        />
+        <Column field="client_phone" header="CONTACT" sortable />
+        <Column field="client_email" header="EMAIL" sortable />
+        <Column field="user_email_sent" header="EMAIL SENT" sortable />
+        <Column field="client_email_reply" header="CLIENT REPLY" sortable />
+        <Column field="user_follow_up" header="FOLLOW UP" sortable />
         {/* <Column
           field="status"
           header="STATUS"
@@ -400,11 +448,11 @@ function Table() {
             <span
               style={{
                 backgroundColor:
-                  rowData.status === "ACTIVE"
+                  rowData.status === "active"
                     ? "rgba(62, 161, 135, 0.12)"
                     : "rgba(161, 62, 62, 0.12)",
                 color:
-                  rowData.status === "ACTIVE"
+                  rowData.status === "active"
                     ? "rgba(62, 161, 135, 1)"
                     : "rgba(161, 62, 62, 1)",
                 padding: "4px 8px",
@@ -415,9 +463,9 @@ function Table() {
             </span>
           )}
         />
-        <Column field="meetingHeld" header="MEETING HELD" sortable />
+        <Column field="meeting_held" header="MEETING HELD" sortable />
         <Column
-          field="enquiry"
+          field="client_enquiry_recieved"
           header="ENQUIRY RECEIVED"
           sortable
           // body={(rowData) => (
@@ -432,23 +480,23 @@ function Table() {
             <span
               style={{
                 backgroundColor:
-                  rowData.enquiry === "YES"
+                  rowData.client_enquiry_recieved === "yes"
                     ? "rgba(62, 161, 135, 0.12)"
                     : "rgba(161, 62, 62, 0.12)",
                 color:
-                  rowData.enquiry === "YES"
+                  rowData.client_enquiry_recieved === "yes"
                     ? "rgba(62, 161, 135, 1)"
                     : "rgba(161, 62, 62, 1)",
                 padding: "4px 8px",
                 borderRadius: "21px",
               }}
             >
-              {rowData.enquiry}
+              {rowData.client_enquiry_recieved}
             </span>
           )}
         />
         <Column
-          field="proposal"
+          field="user_proposal_given"
           header="PROPOSAL GIVEN"
           sortable
           // body={(rowData) => (
@@ -463,18 +511,18 @@ function Table() {
             <span
               style={{
                 backgroundColor:
-                  rowData.proposal === "YES"
+                  rowData.user_proposal_given === "yes"
                     ? "rgba(62, 161, 135, 0.12)"
                     : "rgba(161, 62, 62, 0.12)",
                 color:
-                  rowData.proposal === "YES"
+                  rowData.user_proposal_given === "yes"
                     ? "rgba(62, 161, 135, 1)"
                     : "rgba(161, 62, 62, 1)",
                 padding: "4px 8px",
                 borderRadius: "21px",
               }}
             >
-              {rowData.proposal}
+              {rowData.user_proposal_given}
             </span>
           )}
         />
@@ -482,12 +530,14 @@ function Table() {
           field="remarks"
           header="REMARKS"
           body={(rowData) => (
-            <img class="eye-image" src="./assets/eyefinal.png" onClick={()=>setRemarksVisibleRight(true)}/>
-            
+            <img
+              class="eye-image"
+              src="./assets/eyefinal.png"
+              onClick={() => setRemarksVisibleRight(true)}
+            />
           )}
-          
         />
-        <Column
+        {/* <Column
           field="action"
           body={(rowData) => (
             <div style={{ position: "relative" }} className="action">
@@ -506,10 +556,25 @@ function Table() {
               )}
             </div>
           )}
+        /> */}
+        <Column
+          field="action"
+          body={(rowData) => (
+            <div className="card">
+            <Menubar model={items} />
+            < Toast ref={toast}/>
+        </div>
+          )}
         />
       </DataTable>
-      <RemarksForm remarksVisibleRight={remarksVisibleRight} setRemarksVisibleRight={setRemarksVisibleRight}></RemarksForm>
-<EditForm editVisibleRight={editVisibleRight} setEditVisibleRight={setEditVisibleRight} ></EditForm>
+      <RemarksForm
+        remarksVisibleRight={remarksVisibleRight}
+        setRemarksVisibleRight={setRemarksVisibleRight}
+      ></RemarksForm>
+      <EditForm
+        editVisibleRight={editVisibleRight}
+        setEditVisibleRight={setEditVisibleRight}
+      ></EditForm>
     </div>
   );
 }

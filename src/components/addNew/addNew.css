@@ -16,3 +16,6 @@
 .addNew-img{
     padding-top: 0px;
 }
+.sidebar-content{
+    overflow-x: hidden;
+}

@@ -23,7 +23,7 @@
     margin-top: 20px;
     margin-left: 15px;
   }
-  .txt{
+  .mainmenu-content{
     font-family: Poppins;
     /* font-size: 16px; */
     font-weight: 400;
@@ -70,7 +70,7 @@
   
   .menu-item:hover {
     /* color: blue; */
-    background-color: lightgray;
+    background-color: rgba(241, 241, 243, 1)
   }
 
   .active {
@@ -86,4 +86,5 @@
     background-color: transparent;
   }
 
+  
   

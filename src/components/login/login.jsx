@@ -3,7 +3,8 @@ import "./login.css";
 import { useState, useEffect, useRef } from "react";
 import postApi from "../../api/loginapi";
 import Table from "../table/table";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
+import { useFont } from "../fonts/fontContext";
 function Login() {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -11,10 +12,11 @@ function Login() {
       document.body.style.overflow = "scroll";
     };
   }, []);
+  const fontStyles = useFont();
   const userRef = useRef();
   const passRef = useRef();
   const [auth, setAuth] = useState(false);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,23 +30,20 @@ function Login() {
       return;
     }
 
-     setAuth(await postApi(user));
+    setAuth(await postApi(user));
   };
   useEffect(() => {
-    if (auth===true) {
-        navigate('/table');
-    }
-    else{
-      navigate('/login');
-      
+    if (auth === true) {
+      navigate("/table");
+    } else {
+      navigate("/login");
     }
     console.log(auth);
-}, [auth]);
-
+  }, [auth]);
 
   return (
     <>
-      <div className="main-conatainer">
+      <div className="main-conatainer" style={fontStyles}>
         <div className="login-content">
           <h2 style={{ fontFamily: "Poppins-Bold" }}>CLIENT DB</h2>
           <p style={{ fontFamily: "Poppins-Thin" }}>

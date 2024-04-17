@@ -25,7 +25,6 @@
 //           </Routes>
 //         </Router>
 
-       
 //       </FontProvider>
 //     </>
 //   );
@@ -54,7 +53,7 @@ function App() {
             <Route path="/" element={<Navigate to="/login"></Navigate>} />
             <Route path="/login" element={<Login />} />
             <Route path="/table" element={<Header />} />
-            <Route path="/dashboard" element={<Dashboard/>} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </Router>
 

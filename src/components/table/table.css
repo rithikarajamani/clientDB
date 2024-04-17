@@ -1,7 +1,12 @@
 body{
   overflow-x: hidden;
 }
-
+.search-content::placeholder  {
+  color:rgba(0, 0, 0, 0.74);
+  background-image: url(./assets/search.jpg);
+  background-repeat: no-repeat;
+  padding-left: 25px;
+}
 .header{
   display: flex;
   flex-direction: row;

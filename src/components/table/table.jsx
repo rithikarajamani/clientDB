@@ -382,6 +382,7 @@ function Table() {
           <InputText
             style={fontStyles}
             placeholder="Search"
+            className="search-content"
             value={filters.global.value}
             onChange={(e) =>
               setFilters({

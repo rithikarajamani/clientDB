@@ -42,6 +42,9 @@ function RemarksForm({ remarksVisibleRight, setRemarksVisibleRight }) {
           </div>
         </form>
       </div>
+      <h3 className="recent-content">
+        Recent Remarks
+      </h3>
     </Sidebar>
   );
 }

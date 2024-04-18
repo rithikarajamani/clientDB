@@ -36,3 +36,17 @@ color: rgba(0, 0, 0, 0.87);
     font-weight: 600;
     background-color: white;
 }
+select {
+    background-color: #f1f1f1; /* Background color */
+    color: black; /* Text color */
+    padding: 8px; /* Padding */
+    border: 1px solid #ccc; /* Border */
+    border-radius: 4px; /* Border radius */
+    width: 200px; /* Width */
+  }
+  
+  /* Style the options */
+  select option {
+    background-color: #fff; /* Background color */
+    color: black; /* Text color */
+  }

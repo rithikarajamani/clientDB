@@ -45,4 +45,11 @@
         width:1000px;
         border: 1px solid rgba(215, 219, 224, 1)
     }
-    
+    .recent-content{
+        margin-left: 7px;
+        font-weight: 800;
+        color: rgba(0, 0, 0, 0.87);
+        margin-top: 25px;
+        
+        
+    }

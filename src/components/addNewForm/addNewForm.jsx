@@ -24,7 +24,7 @@ function AddNewForm({ visibleRight, setVisibleRight }) {
     status: "",
   });
 
-  const handleChange = (e) => {
+const handleChange = (e) => {
     // const { name, value } = e.target;
     // setFormData((prevData) => ({
     //     ...prevData,
@@ -35,7 +35,7 @@ function AddNewForm({ visibleRight, setVisibleRight }) {
     setFormData(newFormData);
     console.log(newFormData);
   };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     axios

@@ -1,11 +1,9 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import { FilterMatchMode } from "primereact/api";
-import { PrimeIcons } from "primereact/api";
-import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { useFont } from "../fonts/fontContext";
 import "./table.css";
@@ -15,10 +13,10 @@ import Clients from "../clients/client";
 import RemarksForm from "../remarks/remarksForm";
 import EditForm from "../editForm/editForm";
 import Axios from "axios";
-
-import { Menubar } from 'primereact/menubar';
+import { Menubar } from "primereact/menubar";
 import { Toast } from "primereact/toast";
-        
+import ViewRemarks from "../remarks/viewRemarks";
+
 function Table() {
   useEffect(() => {
     document.body.style.overflowX = "hidden";
@@ -31,6 +29,7 @@ function Table() {
   const [activeRowId, setActiveRowId] = useState(null); // State to track active row ID
   const [remarksVisibleRight, setRemarksVisibleRight] = useState(false);
   const [editVisibleRight, setEditVisibleRight] = useState(false);
+  const [selectedClientId, setSelectedClientId] = useState(null);
   const [filters, setFilters] = useState({
     global: {
       value: "",
@@ -269,8 +268,10 @@ function Table() {
     { label: "Yes", value: "Yes" },
     { label: "No", value: "No" },
   ];
-  
-              
+
+  const [remarkID,setRemarkID] = useState(null)
+  const [getRemarkId,setGetRemarkId]=useState(null)
+
   // const onStatusChange = (rowData, e) => {
   //   const updatedData = [...data];
   //   const index = updatedData.findIndex((item) => item.id === rowData.id);
@@ -322,53 +323,75 @@ function Table() {
     setActiveRowId(rowId === activeRowId ? null : rowId);
   };
 
-  const handleEditButtonClick = (event) => {
-    event.stopPropagation();
+  const handleEditButtonClick = (rowData) => {
+    setSelectedClientId(rowData.id);
+    setEditVisibleRight(true);
   };
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Axios.get(
-          "http://localhost:8090/login/viewClients?limit=5&status=active&offset=0"
+        const response = await Axios.post(
+          "http://localhost:8090/login/viewClients",
+          {
+            params: {
+              limit: 5,
+              status: "active",
+              offset: 1
+            }
+          }
         );
         setData(response.data);
+        console.log("response", response.data);
       } catch (error) {
-        console.error("Error fetching data:", error.message);
+        console.error("Error fetching data:", error);
       }
     };
     fetchData();
   }, []);
   
-  const items = [
-      {
-          label: (
-            <img
-            className="action-img"
-            src="./assets/action.png"
-            alt="File"
-        />
-          ),
+  // const handleEditClick = (rowdata) => {
+  //   console.log(JSON.stringify(rowdata));
+  //   setSelectedClientId(rowdata._id); // Set the selected client ID
+  //   setEditVisibleRight(true); 
+  // };
+
+
+  // const items = [
+  //   {
+  //     label: (
+  //       <img className="action-img" src="./assets/action.png" alt="File" />
+  //     ),
+
+  //     items: [
+  //       {
+  //         label:
+  //           //   <img
+  //           //   className="edit-image"
+  //           //   src="./assets/editicon.png"
+  //           // ></img>,
+  //           "Edit",
+
+  //         command: (event) => {
+  //           const rowData = event.originalEvent.rowData;
+  //          console.log("event", event);
+  //           setEditVisibleRight(true); // Show the edit form
           
-          items: [
-              {
-                  label: ( 
-                 
-                  //   <img
-                  //   className="edit-image"
-                  //   src="./assets/editicon.png"
-                  // ></img>,
-                  'Edit'
-                  
-                  ),
-                  
-                  command: () => {
-                    setEditVisibleRight(!editVisibleRight);
-                  }
-              },
-            ]
-          }
-        ]
+  //           handleEditClick(rowData);
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ];
+
+  const handleRemark=(rowdata)=>{
+   setRemarksVisibleRight(true)
+   console.log("rowdataid",rowdata._id)
+   setRemarkID(rowdata._id)
+   setGetRemarkId(rowdata._id)
+  }
+ 
   return (
     <div style={fontStyles}>
       {/* <h1>Clients</h1> */}
@@ -410,6 +433,7 @@ function Table() {
         className="p-datatable-list"
         style={fontStyles}
         stripedRows
+       
       >
         <Column field="client_id" header="ID" sortable frozen />
         <Column field="client_name" header="CLIENT" sortable frozen />
@@ -534,48 +558,64 @@ function Table() {
             <img
               class="eye-image"
               src="./assets/eyefinal.png"
-              onClick={() => setRemarksVisibleRight(true)}
+              onClick={ ()=>handleRemark(rowData)}
             />
           )}
         />
+       
+      <Column
+      field="action"
+      body={(rowData) => (
+        <div style={{ position: "relative" }} className="action">
+          <a onClick={() => handleImageClick(rowData.id)}>
+            <img className="action-img" src="./assets/action.png" alt="Action" />
+          </a>
+          {activeRowId === rowData.id && (
+            <button onClick={() => handleEditButtonClick(rowData)} className="edit-button">
+              <img
+                onClick={handleEditButtonClick}
+                className="edit-image"
+                src="./assets/editicon.png"
+                alt="Edit"
+              />
+              Edit
+            </button>
+          )}
+        </div>
+      )}
+    />
         {/* <Column
           field="action"
           body={(rowData) => (
-            <div style={{ position: "relative" }} className="action">
-              <a onClick={() => handleImageClick(rowData.id)}>
-                <img class="action-img" src="./assets/action.png" />
-              </a>
-              {activeRowId === rowData.id && (
-                <button onClick={()=>setEditVisibleRight(true)} className="edit-button">
-                  {" "}
-                  <img
-                    className="edit-image"
-                    src="./assets/editicon.png"
-                  ></img>{" "}
-                  Edit
-                </button>
-              )}
+            <div className="card">
+              <Menubar model={items} />
+              <Toast ref={toast} />
             </div>
           )}
+          
         /> */}
-        <Column
-          field="action"
-          body={(rowData) => (
-            <div className="card">
-            <Menubar model={items} />
-            < Toast ref={toast}/>
-        </div>
-          )}
-        />
       </DataTable>
       <RemarksForm
         remarksVisibleRight={remarksVisibleRight}
         setRemarksVisibleRight={setRemarksVisibleRight}
+        remarkID={remarkID}
       ></RemarksForm>
-      <EditForm
+      <ViewRemarks
+      getRemarkId={getRemarkId}>
+
+      </ViewRemarks>
+      {/* <EditForm
         editVisibleRight={editVisibleRight}
         setEditVisibleRight={setEditVisibleRight}
-      ></EditForm>
+        selectedClientId={selectedClientId}
+      ></EditForm> */}
+       {editVisibleRight && (
+        <EditForm
+          editVisibleRight={editVisibleRight}
+          setEditVisibleRight={setEditVisibleRight}
+          selectedClientId={selectedClientId}
+        />
+      )}
     </div>
   );
 }

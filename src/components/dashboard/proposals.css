@@ -1,0 +1,12 @@
+.pie-content{
+    width:300px;
+    height:350px;
+    margin-left: 1000px;
+    margin-top: 100px;
+     border: 1px solid rgba(215, 219, 224, 1);
+     border-radius: 10px;
+}
+.proposal-heading{
+    margin-left: 10px;
+    margin-top: 10px;
+}

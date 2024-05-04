@@ -1,0 +1,40 @@
+.chart-container {
+    width: 75%;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fff; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 70px;
+    margin-left: 245px;
+    
+  }
+  
+  .filters-container {
+    display: flex;
+   margin-left: 800px;
+    margin-bottom: 10px;
+    margin-top: -40px;
+   
+  }
+  
+  .filter-select {
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+  }
+  
+  .canvas {
+    width: 200%;
+    height: 100%;
+    margin-left: 180px;
+    margin-top: 100px;
+    border-width: 5px;
+    align-items: center;
+    display: block;
+    
+  }
+  

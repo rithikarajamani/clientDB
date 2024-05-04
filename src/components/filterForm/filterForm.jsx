@@ -4,11 +4,16 @@ import axios from "axios";
 import "./filterForm.css";
 import { useFont } from "../fonts/fontContext";
 
-function FilterForm({ filterVisibleRight, setFilterVisibleRight }) {
+function FilterForm({
+  filterVisibleRight,
+  setFilterVisibleRight,
+  handleFilter,
+  handleResetFilter,
+}) {
   const fontStyles = useFont();
   const [companyNames, setCompanyNames] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState("");
-
+  const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
     fetchCompanyNames();
   }, []);
@@ -21,8 +26,8 @@ function FilterForm({ filterVisibleRight, setFilterVisibleRight }) {
           params: {
             limit: 5,
             status: "active",
-            offset: 1
-          }
+            offset: 1,
+          },
         }
       );
       const names = response.data.map((client) => client.client_company_name);
@@ -48,6 +53,8 @@ function FilterForm({ filterVisibleRight, setFilterVisibleRight }) {
       );
 
       console.table(filteredData);
+      //setFilteredData(filteredData)
+      handleFilter(filteredData);
     } catch (error) {
       console.error("Error applying filter:", error);
     }
@@ -57,50 +64,54 @@ function FilterForm({ filterVisibleRight, setFilterVisibleRight }) {
   const handleCancel = () => {
     setSelectedCompany("");
     setFilterVisibleRight(false);
+    handleFilter([]);
+    handleResetFilter();
   };
 
   return (
-    <Sidebar
-      visible={filterVisibleRight}
-      position="right"
-      onHide={() => setFilterVisibleRight(false)}
-      style={fontStyles}
-    >
-      <h2 className="filter-content">Filter</h2>
-      <div className="filter-formContainer">
-        <form className="form-inline" onSubmit={handleApplyFilter}>
-          <div className="form-group">
-            <div className="label-input">
-              <label>Company Name</label>
-              <select
-                id="client_company_name"
-                value={selectedCompany}
-                onChange={handleChange}
-              >
-                <option value="">Select Company</option>
-                {companyNames.map((company, index) => (
-                  <option key={index} value={company}>
-                    {company}
-                  </option>
-                ))}
-              </select>
+    <div>
+      <Sidebar
+        visible={filterVisibleRight}
+        position="right"
+        onHide={() => setFilterVisibleRight(false)}
+        style={fontStyles}
+      >
+        <h2 className="filter-content">Filter</h2>
+        <div className="filter-formContainer">
+          <form className="form-inline" onSubmit={handleApplyFilter}>
+            <div className="form-group">
+              <div className="label-input">
+                <label>Company Name</label>
+                <select
+                  id="client_company_name"
+                  value={selectedCompany}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Company</option>
+                  {companyNames.map((company, index) => (
+                    <option key={index} value={company}>
+                      {company}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-          <div className="filter-button">
-            <button type="submit" className="apply_button">
-              Apply
-            </button>
-            <button
-              type="button"
-              className="cancel_button"
-              onClick={handleCancel}
-            >
-              Reset
-            </button>
-          </div>
-        </form>
-      </div>
-    </Sidebar>
+            <div className="filter-button">
+              <button type="submit" className="apply_button">
+                Apply
+              </button>
+              <button
+                type="button"
+                className="cancel_button"
+                onClick={handleCancel}
+              >
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+      </Sidebar>
+    </div>
   );
 }
 

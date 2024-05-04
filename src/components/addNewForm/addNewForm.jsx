@@ -4,6 +4,7 @@ import "./addNewForm.css";
 import { Sidebar } from "primereact/sidebar";
 import axios from "axios";
 import { useFont } from "../fonts/fontContext";
+import moment from 'moment';
 function AddNewForm({ visibleRight, setVisibleRight }) {
   const url = "http://localhost:8090/login/createClients";
   const fontStyles = useFont();
@@ -161,12 +162,14 @@ const handleChange = (e) => {
 
           <div className="form-group">
             <div className="label-input">
-              <label htmlFor="emailSentOn">Email Sent On </label>
+              <label htmlFor="user_email_sent">Email Sent On </label>
               <input
                 type="date"
                 id="user_email_sent"
+               // asp-for="MyDate" asp-format="{0:yyyy-MM-dd}"
                 //name="emailSentOn"
-                value={formData.user_email_sent}
+                //value={formData.user_email_sent}
+                value={formData.user_email_sent ? moment(formData.user_email_sent).format("YYYY-MM-DD") : ""}                
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -174,25 +177,32 @@ const handleChange = (e) => {
 
           <div className="form-group">
             <div className="label-input">
-              <label htmlFor="clientRepliedOn">Client Replied On </label>
+              
+              <label htmlFor="client_email_reply">Client Replied On </label>
               <input
                 type="date"
                 id="client_email_reply"
+                
                 //name="clientRepliedOn"
-                value={formData.client_email_reply}
+               // value={formData.client_email_reply}
+               value={formData.client_email_reply ? moment(formData.client_email_reply).format("YYYY-MM-DD") : ""}                
+
                 onChange={(e) => handleChange(e)}
               />
+              
             </div>
           </div>
 
           <div className="form-group">
             <div className="label-input">
-              <label htmlFor="followUp">Follow Up </label>
+              <label htmlFor="user_follow_up">Follow Up </label>
               <input
                 type="date"
                 id="user_follow_up"
                 // name="followUp"
-                value={formData.user_follow_up}
+             //   value={formData.user_follow_up}
+             value={formData.user_follow_up ? moment(formData.user_follow_up).format("YYYY-MM-DD") : ""}                
+
                 onChange={(e) => handleChange(e)}
               />
             </div>
@@ -215,12 +225,14 @@ const handleChange = (e) => {
           </div>
           <div className="form-group">
             <div className="label-input">
-              <label htmlFor="MeetingHeldOn">Meeting Held On </label>
+              <label htmlFor="meeting_held">Meeting Held On </label>
               <input
                 type="date"
                 id="meeting_held"
                 // name="Select Date"
-                value={formData.meeting_held}
+                //value={formData.meeting_held}
+                value={formData.meeting_held ? moment(formData.meeting_held).format("YYYY-MM-DD") : ""}                
+
                 onChange={(e) => handleChange(e)}
               />
             </div>

@@ -16,6 +16,7 @@ import Axios from "axios";
 import { Menubar } from "primereact/menubar";
 import { Toast } from "primereact/toast";
 import ViewRemarks from "../remarks/viewRemarks";
+import FilterForm from "../filterForm/filterForm";
 
 function Table() {
   useEffect(() => {
@@ -30,6 +31,8 @@ function Table() {
   const [remarksVisibleRight, setRemarksVisibleRight] = useState(false);
   const [editVisibleRight, setEditVisibleRight] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState(null);
+  const [filterVisibleRight, setFilterVisibleRight] = useState(false);
+  const [originalData, setOriginalData] = useState(null);
   const [filters, setFilters] = useState({
     global: {
       value: "",
@@ -269,8 +272,8 @@ function Table() {
     { label: "No", value: "No" },
   ];
 
-  const [remarkID,setRemarkID] = useState(null)
-  const [getRemarkId,setGetRemarkId]=useState(null)
+  const [remarkID, setRemarkID] = useState(null);
+  const [getRemarkId, setGetRemarkId] = useState(null);
 
   // const onStatusChange = (rowData, e) => {
   //   const updatedData = [...data];
@@ -324,10 +327,9 @@ function Table() {
   };
 
   const handleEditButtonClick = (rowData) => {
-    setSelectedClientId(rowData.id);
+    setSelectedClientId(rowData._id);
     setEditVisibleRight(true);
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -338,11 +340,14 @@ function Table() {
             params: {
               limit: 5,
               status: "active",
-              offset: 1
-            }
+              offset: 1,
+            },
           }
         );
-        setData(response.data);
+        const newData = response.data;
+        setOriginalData(newData);
+        setData(newData);
+        //setData(response.data);
         console.log("response", response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -350,13 +355,12 @@ function Table() {
     };
     fetchData();
   }, []);
-  
+
   // const handleEditClick = (rowdata) => {
   //   console.log(JSON.stringify(rowdata));
   //   setSelectedClientId(rowdata._id); // Set the selected client ID
-  //   setEditVisibleRight(true); 
+  //   setEditVisibleRight(true);
   // };
-
 
   // const items = [
   //   {
@@ -377,7 +381,7 @@ function Table() {
   //           const rowData = event.originalEvent.rowData;
   //          console.log("event", event);
   //           setEditVisibleRight(true); // Show the edit form
-          
+
   //           handleEditClick(rowData);
   //         },
   //       },
@@ -385,13 +389,22 @@ function Table() {
   //   },
   // ];
 
-  const handleRemark=(rowdata)=>{
-   setRemarksVisibleRight(true)
-   console.log("rowdataid",rowdata._id)
-   setRemarkID(rowdata._id)
-   setGetRemarkId(rowdata._id)
-  }
- 
+  const handleRemark = (rowdata) => {
+    setRemarksVisibleRight(true);
+
+    setRemarkID(rowdata._id);
+    setGetRemarkId(rowdata._id);
+  };
+  const handleFilter = (filteredData) => {
+    setData(filteredData);
+  };
+  const handleResetFilter = () => {
+    setData(originalData);
+    setFilterVisibleRight(false);
+    // fetchData()
+    //setData(response.data)
+  };
+
   return (
     <div style={fontStyles}>
       {/* <h1>Clients</h1> */}
@@ -418,13 +431,21 @@ function Table() {
           />
         </div>
         <div className="filter-content">
-          <FilterButton />
+          {/* <FilterButton /> */}
+          <button
+            style={fontStyles}
+            className="filterBtn"
+            onClick={() => setFilterVisibleRight(true)}
+          >
+            <img src="/assets/filterIcon.png"></img>Filter
+          </button>
         </div>
         <div className="addnew-content">
           <AddNew />
         </div>
       </div>
       {/* </span> */}
+
       <DataTable
         value={data}
         filters={filters}
@@ -433,7 +454,6 @@ function Table() {
         className="p-datatable-list"
         style={fontStyles}
         stripedRows
-       
       >
         <Column field="client_id" header="ID" sortable frozen />
         <Column field="client_name" header="CLIENT" sortable frozen />
@@ -558,32 +578,39 @@ function Table() {
             <img
               class="eye-image"
               src="./assets/eyefinal.png"
-              onClick={ ()=>handleRemark(rowData)}
+              onClick={() => handleRemark(rowData)}
             />
           )}
         />
-       
-      <Column
-      field="action"
-      body={(rowData) => (
-        <div style={{ position: "relative" }} className="action">
-          <a onClick={() => handleImageClick(rowData.id)}>
-            <img className="action-img" src="./assets/action.png" alt="Action" />
-          </a>
-          {activeRowId === rowData.id && (
-            <button onClick={() => handleEditButtonClick(rowData)} className="edit-button">
-              <img
-                onClick={handleEditButtonClick}
-                className="edit-image"
-                src="./assets/editicon.png"
-                alt="Edit"
-              />
-              Edit
-            </button>
+
+        <Column
+          field="action"
+          body={(rowData) => (
+            <div style={{ position: "relative" }} className="action">
+              <a onClick={() => handleImageClick(rowData._id)}>
+                <img
+                  className="action-img"
+                  src="./assets/action.png"
+                  alt="Action"
+                />
+              </a>
+              {activeRowId === rowData._id && (
+                <button
+                  onClick={() => handleEditButtonClick(rowData)}
+                  className="edit-button"
+                >
+                  <img
+                    onClick={handleEditButtonClick}
+                    className="edit-image"
+                    src="./assets/editicon.png"
+                    alt="Edit"
+                  />
+                  Edit
+                </button>
+              )}
+            </div>
           )}
-        </div>
-      )}
-    />
+        />
         {/* <Column
           field="action"
           body={(rowData) => (
@@ -599,23 +626,28 @@ function Table() {
         remarksVisibleRight={remarksVisibleRight}
         setRemarksVisibleRight={setRemarksVisibleRight}
         remarkID={remarkID}
+        //data={data}
+        getRemarkId={getRemarkId}
       ></RemarksForm>
-      <ViewRemarks
-      getRemarkId={getRemarkId}>
-
-      </ViewRemarks>
+      <ViewRemarks getRemarkId={getRemarkId}></ViewRemarks>
       {/* <EditForm
         editVisibleRight={editVisibleRight}
         setEditVisibleRight={setEditVisibleRight}
         selectedClientId={selectedClientId}
       ></EditForm> */}
-       {editVisibleRight && (
-        <EditForm
-          editVisibleRight={editVisibleRight}
-          setEditVisibleRight={setEditVisibleRight}
-          selectedClientId={selectedClientId}
-        />
-      )}
+
+      <EditForm
+        editVisibleRight={editVisibleRight}
+        setEditVisibleRight={setEditVisibleRight}
+        selectedClientId={selectedClientId}
+      />
+      {/* <FilterForm filterVisibleRight={filterVisibleRight} setFilterVisibleRight={setFilterVisibleRight}></FilterForm> */}
+      <FilterForm
+        filterVisibleRight={filterVisibleRight}
+        setFilterVisibleRight={setFilterVisibleRight}
+        handleFilter={handleFilter}
+        handleResetFilter={handleResetFilter}
+      />
     </div>
   );
 }

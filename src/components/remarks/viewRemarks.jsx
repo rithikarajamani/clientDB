@@ -1,68 +1,37 @@
-// import React, { useState } from 'react';
-// import { useState } from 'react';
-// function ViewRemarks() {
-//     const [data,setData]=useState(null);
-//     useEffect(() => {
-//         const fetchData = async ({getRemarkId}) => {
-//           try {
-//             const response = await Axios.get(
-//               `http://localhost:8090/login/viewClients/viewRemark?_id=${getRemarkId}`,
-//               {
-//                 params: {
-//                   "_id":getRemarkId
-//                 }
-//               }
-//             );
-//             setData(response.data);
-//             console.log("response", response.data);
-//           } catch (error) {
-//             console.error("Error fetching data:", error);
-//           }
-//         };
-//         fetchData();
-//       }, [getRemarkId]);
-//     return ( 
-//         <div>
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
+import RemarksForm from "./remarksForm";
 
-//         </div>
-//      );
-// }
+function ViewRemarks({ getRemarkId }) {
+  const [data, setData] = useState(null);
 
-// export default ViewRemarks;
-import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await Axios.get(
+          `http://localhost:8090/login/viewClients/viewRemark`,
+          {
+            params: {
+              _id: getRemarkId,
+            },
+          }
+        );
+        setData(response.data);
+        console.log("response", response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    if (getRemarkId) {
+      fetchData();
+    }
+  }, [getRemarkId]);
 
-function ViewRemarks({getRemarkId}) {
-    const [data, setData] = useState(null);
-    
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await Axios.get(
-                    `http://localhost:8090/login/viewClients/viewRemark`,
-                    {
-                        params: {
-                            _id: getRemarkId
-                        }
-                    }
-                );
-                setData(response.data);
-                console.log("response", response.data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        if (getRemarkId) {
-            fetchData();
-        }
-    }, [getRemarkId]);
-
-    return (
-        <div>
-            {/* Display your fetched data here */}
-        </div>
-    );
+  return (
+    <div>
+      <RemarksForm data={data} />
+    </div>
+  );
 }
 
 export default ViewRemarks;

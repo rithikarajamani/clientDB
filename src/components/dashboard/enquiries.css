@@ -1,0 +1,51 @@
+.doughnut-content{
+    width: 500px; /* Adjust the width of the container */
+    height: 560px; /* Adjust the height of the container */
+    margin: 100px auto; /* Center the container horizontally with top margin */
+    border-radius: 10px;
+    position: relative;
+    border: 1px solid rgba(215, 219, 224, 1);
+    font-weight: 800;
+    margin-left: 245px;
+    
+}
+.enquiry-heading{
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.enquiry-filter-select {
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid rgba(192, 191, 191, 1);
+    background-color: #fff;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+.enquiry-content{
+    display: flex;
+}
+.enquiry-filters-container {
+    display: flex;
+    margin-left: 800px;
+    margin-bottom: 10px;
+    margin-top: -40px;
+}
+.enquiry-date-picker-wrapper {
+    position: absolute;
+    top: 6px; 
+    right: 10px; 
+    width: 150px;
+}
+.enquiry-date-picker-wrapper {
+    margin-right: 200px;
+  }
+  
+  .enquiry-date-picker-wrapper:last-child {
+    margin-right: 0;
+  }
+  /* display: block;
+  box-sizing: border-box;
+  height: 351px;
+  width: 387px;
+  margin-left:54px */

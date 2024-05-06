@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./dashboardCard.css";
 import Axios from "axios";
-
+import { useFont } from "../fonts/fontContext";
 function DashboardCard() {
+  const fontStyles = useFont();
   const [data, setData] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +31,7 @@ function DashboardCard() {
     console.log("weeklyCount", data?.[0]?.weeklyCount);
   }, [data]);
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container" style={fontStyles}>
       <div className="dashboard-heading">
         <h4>Dashboard</h4>
       </div>

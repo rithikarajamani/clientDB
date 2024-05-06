@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 import "./clientsBarchart.css";
+import { useFont } from "../fonts/fontContext";
 const NoOfClientsBarchart = () => {
+  const fontStyles = useFont();
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
@@ -83,7 +85,7 @@ const NoOfClientsBarchart = () => {
   ];
 
   return (
-    <div className="chart-container">
+    <div className="chart-container" style={fontStyles}>
       <div className="heading">
         <h4>Total No.of Clients</h4>
       </div>

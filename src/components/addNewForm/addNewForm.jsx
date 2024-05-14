@@ -142,7 +142,7 @@ const handleChange = (e) => {
                 // name="phoneNumber"
                 value={formData.client_phone}
                 onChange={(e) => handleChange(e)}
-                required
+                
               />
             </div>
           </div>
